@@ -1,0 +1,122 @@
+m_pDbProcPic = new CDBProcess("sqlserver");
+m_pDbProc->openDB("mysvr", "mydb", "myusername", "mypwd");
+
+m_pDbProcPic = new CDBProcess("mysql");
+m_pDbProc->openDB("localhost", "mydb", "root", "password");
+
+m_pDbProcPic = new CDBProcess("access");
+m_pDbProc->openDB("", strMDB, "sa", "password");
+
+m_pDbProcPic = new CDBProcess("sqlite");
+m_pDbProcPic->openDB("", "mysqlitedb");
+
+CDBProcess使用说明
+
+构造函数：
+CDBProcess(const QString strType);
+参数：为数据库类型，不区分大小写，支持的类型有
+sqlite  mysql  access sqlserver
+例：
+CDBProcess db("sqlite");
+--------------------------------------------------
+打开数据库
+bool openDB(const QString strSvrName,     //服务器名
+            const QString strDBname,     //数据库名
+            const QString strUserID="",   //用户名
+            const QString strUserPwd=""); //密码
+打开数据库成功，返回true,否则返回false
+对于sqlite，只有strDBname有效，其它参数忽略，如db.openDB("", "mysqlite.db")
+对于MS Access数据库，strSvrName为空，用户名默认为"sa"，如db.openDB("", "myaccess.mdb");
+对MSAccess数据库，也可通过一个UDL文件，打开，如db.openDB("my.udl", "");
+mysql和sqlserver，就是各个参数依次提供，如db.openDB("svr1", "mydb", "user1", "abcd");
+-----------------------------------------------------
+关闭数据库，CDBProcess析构时，亦会自动关闭数据库
+void closeDB();  //db.closeDB();
+------------------------------------------------------
+执行Sql语句
+bool excuteSQL(const QString);
+-------------------------------------------------------
+打开记录集
+bool openRecordsetBySql(const QString strSql, //Sql语句
+                        int idx = -1);         //记录集id，用于标识记录集，默认值为-1
+例：
+db.openRecordsetBySql("SELECT * FROM TB1", 5);
+打开一个记录集，标识号为5，后面操作这个记录集，也要提供这个标识号
+--------------------------------------------------------
+关闭记录集
+void closeRecordset(int idx = -1);
+例：
+db.closeRecordset(5); 关闭之前打开的标识为5的记录集
+-----------------------------------
+数据库是否处在打开状态
+bool isOpen() const;
+------------------------------------
+记录集游标是否在结尾，参数为记录集标识
+bool recEOF(int idx = -1) const;
+例：bool b = db.RecBOF(5);
+------------------------------------
+记录集游标是否在第一条记录之前，参数为记录集标识
+bool recBOF(int idx = -1) const;
+----------------------------------------
+删除一个表
+bool dropTable(const QString);
+---------------------------------------------
+读取标识为idx记录集的当前记录的各字段值，方法如示例：
+bool getFieldsValueFromRec(int idx, const char* szFldInfo, ...) const;
+
+int iSN;
+QString strName;
+double dHeight;
+QDateTime dt;
+QByteArray ba;
+db.getFieldsValueFromRec(5,                     //记录集id
+                        "sn%d", &iSN,           //字段名加类型 sn为字段名%d表示整型，&iSN传入指针，保存返回字段值
+                        "name%s", &strName,     //字段名加类型 name为字段名%s表示字符串(QString)
+                        "height&f", &dHeight,   //字段名加类型 height为字段名%f表示小数(double)
+                        "birthday%t", &dt,      //字段名加类型 birthday为字段名%t表示时间(QDateTime)
+                        "photo%b", &ba,         //字段名加类型 photo为字段名%b表示二进制流(QByteArray)
+                        CDBProcess::szEnd);     //结束标志，"|"
+执行后，各字段值就保存在iSN， strName等变量中了。
+参数：第一个参数为记录集id
+后面可变参数，字段%类型标识，用于保存返回值的指针，
+类型标识：%d-int  %s-QString   %f-double   %t-QDateTime    %b-QByteArray  
+---------------------------------------------------------------------------
+向一个数据表中填加一条记录
+bool addFieldsValueToTbl(const QString strTbl, const char* szFldInfo, ...);
+参数：第一个参数strTbl，为表名
+后面是可变参数，为"字段%类型标识",值（或指针），注int，double类型直接传值，其它传指针
+例：
+db.addFieldsValueToTbl("TB1",                  //表名
+                        "sn%d", iSN,           //字段名加类型 sn为字段名%d表示整型，iSN传入值
+                        "name%s", &strName,     //字段名加类型 name为字段名%s表示字符串(QString), 传入QString变量指针
+                        "height&f", dHeight,   //字段名加类型 height为字段名%f表示小数(double)，dHeight传入值
+                        "birthday%t", &dt,      //字段名加类型 birthday为字段名%t表示时间(QDateTime)，传入指针
+                        "photo%b", &ba,         //字段名加类型 photo为字段名%b表示二进制流(QByteArray)，传入指针
+                        CDBProcess::szEnd);     //结束标志，"|"
+
+-----------------------------------------------------------
+修改表中符合WHERE子句条件的记录
+bool updateTblFieldsValue(const QString strTbl, QString strWhere, const char * szFldInfo, ... );
+strTbl表名
+strWhere SQL WHERE子句，如"WHERE sn=20"
+const char * szFldInfo, ...可变参数，同addFieldsValueToTbl
+例：
+db.updateTblFieldsValue("TB1", "WHERE sn=20", "height&f", dHeight, "photo%b", &ba, CDBProcess::szEnd);
+----------------------------------------------------------------
+以下几个函数分别是获取记录数，和记录光标移动。参数为记录集标识
+long getRecordCount(int idx = -1) const;
+bool moveFirst(int idx = -1) const;
+bool movePrevious(int idx = -1) const;
+bool moveNext(int idx = -1) const;
+bool moveLast(int idx = -1) const;
+bool moveTo(int n, int idx = -1) const;
+--------------------------------------------------------------------
+返回数据库名
+QString getDbName() const;
+------------------------
+以下几个函数未验证
+bool execStoreProcOfArgList(int idx, const QString strStoreProc, const char* szFldsInfo, ...);
+bool exexProc(const QString strStoreProc, QString str1, QString& str2);
+bool transaction();
+bool commit();
+bool rollback();
