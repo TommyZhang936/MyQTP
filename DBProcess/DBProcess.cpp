@@ -24,7 +24,7 @@ CDBProcess::CDBProcess(const QString strType)
     else if ("MYSQL" == __strDbType)
         dbType = "QMYSQL"; //QTPLUGIN += qsqlmysql Q_IMPORT_PLUGIN(QMYSQLDriverPlugin)
     else if ("SQLSERVER" == __strDbType)
-        dbType = "QODBC"; //QTPLUGIN += qsqlodbc  Q_IMPORT_PLUGIN(QODBCDriverPlugin)
+        dbType = "QODBC3"; //QTPLUGIN += qsqlodbc  Q_IMPORT_PLUGIN(QODBCDriverPlugin)
     else if("ACCESS" == __strDbType)
         dbType = "QODBC"; //QTPLUGIN += qsqlodbc  Q_IMPORT_PLUGIN(QODBCDriverPlugin)
     else
@@ -282,6 +282,7 @@ bool CDBProcess::moveFirst(int idx /* = -1 */) const
     if(0 == pQry) return false;
     if(pQry->isActive())
     {
+        //movePrevious(idx);    //ZHQ
         return pQry->first();
     }
     else
@@ -298,7 +299,7 @@ bool CDBProcess::movePrevious(int idx /* = -1 */) const
     }
     QSqlQuery *pQry = m_mapQry.value(idx);
     if(0 == pQry) return false;
-    if(pQry->isActive())
+    if(pQry->isActive() and pQry->isSelect())
     {
         return pQry->previous();
     }
@@ -316,7 +317,7 @@ bool CDBProcess::moveNext(int idx /* = -1*/) const
     }
     QSqlQuery *pQry = m_mapQry.value(idx);
     if(0 == pQry) return false;
-    if(pQry->isActive())
+    if(pQry->isActive() and pQry->isSelect())
     {
         return pQry->next();
     }
@@ -336,6 +337,7 @@ bool CDBProcess::moveLast(int idx /* = -1 */) const
     if(0 == pQry) return false;
     if(pQry->isActive())
     {
+        //moveNext(idx);   //ZHQ
         return pQry->last();
     }
     else
@@ -352,7 +354,7 @@ bool CDBProcess::moveTo(int n, int idx /* = -1 */) const
     }
     QSqlQuery *pQry = m_mapQry.value(idx);
     if(0 == pQry) return false;
-    if(pQry->isActive())
+    if(pQry->isActive() and pQry->isSelect())
     {
         return pQry->seek(n);
     }
