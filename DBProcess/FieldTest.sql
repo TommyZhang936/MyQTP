@@ -52,3 +52,5 @@ GO
 
 SELECT * FROM FieldTest
 
+SELECT COUNT(*) AS TOTALCOUNT FROM FieldTest
+

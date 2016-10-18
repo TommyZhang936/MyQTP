@@ -28,7 +28,7 @@ private slots:
     void on_lineEdit_Seek_textEdited(const QString &arg1);
     
 private:
-    void showValue(int idx = 0);
+    void showValue(int idx = 1);
     
 private:
     CDBProcess *newDB;

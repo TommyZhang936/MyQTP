@@ -664,6 +664,7 @@ bool CDBProcess::getFieldsValueFromRec(int idx, const char* szFldInfo, ...) cons
     va_list arg_ptr;
     va_start(arg_ptr, szFldInfo);      
     QSqlQuery *pQry = m_mapQry.value(idx);
+    //qDebug() << pQry->value("TOTALCOUNT").toULongLong();
     if(0 == pQry)
     {
         qDebug() << "No QSqlQuery idx.";
@@ -846,6 +847,10 @@ bool CDBProcess::addFieldsValueToTbl(const QString strTbl, const char* szFldInfo
 
     va_end(arg_ptr);
     bool b = pQry->exec();
+    if(false == b)
+    {
+        qDebug() << "INSERT Exec false -> " << pQry->lastError();
+    }
     //QSqlError lastError = pQry->lastError();
     //QString strErr = lastError.driverText();
     delete pQry;
@@ -960,7 +965,10 @@ bool CDBProcess::updateTblFieldsValue(const QString strTbl, QString strWhere, co
 
     va_end(arg_ptr);
     bool b = pQry->exec();
-
+    if(false == b)
+    {
+        qDebug() << "UPDATE Exec false -> " << pQry->lastError();
+    }
     delete pQry;
     return b;
 }
