@@ -680,7 +680,7 @@ bool CDBProcess::getFieldsValueFromRec(int idx, const char* szFldInfo, ...) cons
         
         QStringList strlst = strFld.split("%", QString::SkipEmptyParts);     //按照%分割参数为：字段 类型
         int iFld = pQry->record().indexOf(strlst.at(0));           //取字段在record()中的位置
-        qDebug() << pQry->record();
+        //qDebug() << pQry->record();
         QVariant var = pQry->value(iFld);                             //取字段值
         if (false == var.isValid())
         {
@@ -726,7 +726,7 @@ bool CDBProcess::getFieldsValueFromRec(int idx, const char* szFldInfo, ...) cons
             }
         default:
         {
-            qDebug() << "Default here!";
+            qDebug() << "SELECT Error : Data Type is invalid~";
             break;
         }
         } //end of switch
@@ -753,7 +753,7 @@ bool CDBProcess::addFieldsValueToTbl(const QString strTbl, const char* szFldInfo
         QStringList strlst = strFld.split("%", QString::SkipEmptyParts);
         strSql += strlst.at(0) + ",";
         strSqlFlds += QString(":%1,").arg(strlst.at(0));
-        QChar ch('d'); //int is default
+        QChar ch('d');                                      //int is default
         if(strlst.size() > 1)
         {
             ch = strlst.at(1).at(0);
@@ -777,6 +777,11 @@ bool CDBProcess::addFieldsValueToTbl(const QString strTbl, const char* szFldInfo
                 va_arg(arg_ptr, void*);
                 break;
             }
+        default:
+        {
+            qDebug() << "INSERT Error : (Field)Data Type is invalid~";
+            break;
+        }
         } // end of switch
         char* pchFld = va_arg(arg_ptr, char*);
         strFld = pchFld;
@@ -826,6 +831,11 @@ bool CDBProcess::addFieldsValueToTbl(const QString strTbl, const char* szFldInfo
                 var = *pdt;
                 break;
             }
+        default:
+        {
+            qDebug() << "INSERT Error : (Value)Data Type is invalid~";
+            break;
+        }
         } // end of switch
         pQry->bindValue(strPlaceholder, var);
         char* pchFld = va_arg(arg_ptr, char*);
@@ -879,13 +889,18 @@ bool CDBProcess::updateTblFieldsValue(const QString strTbl, QString strWhere, co
                 va_arg(arg_ptr, void*);
                 break;
             }
+        default:
+        {
+            qDebug() << "UPDATA Error : (Field)Data Type is invalid~";
+            break;
+        }
         } // end of switch
         char* pchFld = va_arg(arg_ptr, char*);
         strFld = pchFld;
     }
     strSql = strSql.left(strSql.length()-1) + " ";
     strSql += strWhere;
-    pQry->prepare(strSql);//("INSERT INTO person (id, forename, surname) VALUES (:id, :forename, :surname)");
+    pQry->prepare(strSql);              //("INSERT INTO person (id, forename, surname) VALUES (:id, :forename, :surname)");
     va_start(arg_ptr, szFldInfo);
     strFld = (szFldInfo);
     while(szEnd != strFld)
@@ -930,6 +945,11 @@ bool CDBProcess::updateTblFieldsValue(const QString strTbl, QString strWhere, co
                 var = *pdt;
                 break;
             }
+        default:
+        {
+            qDebug() << "UPDATA Error : (Value)Data Type is invalid~";
+            break;
+        }
         } // end of switch
         pQry->bindValue(strPlaceholder, var);
         char* pchFld = va_arg(arg_ptr, char*);

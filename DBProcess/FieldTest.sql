@@ -1,3 +1,6 @@
+CREATE DATABASE MyDB
+GO
+
 USE [MyDB]
 GO
 
@@ -12,6 +15,7 @@ SET ANSI_PADDING ON
 GO
 
 CREATE TABLE [dbo].[FieldTest](
+	[ID] [int] NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	[int1] [int] NULL,
 	[int2big] [bigint] NULL,
 	[int3small] [smallint] NULL,
@@ -31,10 +35,20 @@ CREATE TABLE [dbo].[FieldTest](
 
 GO
 
+TRUNCATE table FieldTest
+GO
+
 SET ANSI_PADDING OFF
 GO
 
 ALTER TABLE [dbo].[FieldTest] ADD  CONSTRAINT [DF_FieldTest_guid]  DEFAULT (newid()) FOR [guid]
 GO
 
+ALTER TABLE [dbo].[FieldTest] ADD  CONSTRAINT [DF_FieldTest_time1date]  DEFAULT (getdate()) FOR [time1date]
+GO
+
+ALTER TABLE [dbo].[FieldTest] ADD  CONSTRAINT [DF_FieldTest_time2dt]  DEFAULT (getdate()) FOR [time2dt]
+GO
+
+SELECT * FROM FieldTest
 
