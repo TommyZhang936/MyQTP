@@ -28,7 +28,7 @@ Widget::Widget(QWidget *parent) :
     colorChange->setStrength(180);                               //着色强度
     //4、透明
     QGraphicsOpacityEffect *e4 = new QGraphicsOpacityEffect(this);
-    e4->setOpacity(0.5);                  //透明值取值0 - 1.0之间   
+    e4->setOpacity(0.8);                  //透明值取值0 - 1.0之间
     QRect rect = this->rect();
     QLinearGradient alphaGradient(rect.topLeft(), rect.bottomLeft());
     alphaGradient.setColorAt(0.0, Qt::transparent);
@@ -52,12 +52,17 @@ Widget::~Widget()
 void Widget::paintEvent(QPaintEvent *) 
 {
     QPainter painter(this);
+
     painter.translate(width() / 2, height() / 2);
     painter.setRenderHint(QPainter::Antialiasing);
     painter.setPen(Qt::transparent);
     painter.fillRect(-width(), -height(), width() * 2, height() * 2, Qt::gray);
 
-    int radius = 100;
+    int radius = (width() > height()) ? height() / 2 : width() / 2;
+    if(radius > 33)
+        radius -= 33;
+    //int radius = 100;
+    ui->pushButton->setText(QString("%1").arg(radius));
 
     // 外边框
     QLinearGradient lg1(0, -radius, 0, radius);
@@ -66,8 +71,9 @@ void Widget::paintEvent(QPaintEvent *)
     painter.setBrush(lg1);
     painter.drawEllipse(-radius, -radius, radius << 1, radius << 1);
 
+    double inzi = radius / 100;
     // 内边框
-    radius -= 13;
+    radius -= (13 * inzi);
     QLinearGradient lg2(0, -radius, 0, radius);
     lg2.setColorAt(0, QColor(155, 155, 155));
     lg2.setColorAt(1, QColor(255, 255, 255));
@@ -75,7 +81,7 @@ void Widget::paintEvent(QPaintEvent *)
     painter.drawEllipse(-radius, -radius, radius << 1, radius << 1);
 
     // 内部的圆
-    radius -= 4;
+    radius -= (4 * inzi);
     QRadialGradient rg(0, 0, radius);
     rg.setColorAt(0, QColor(245, 0, 0));
     rg.setColorAt(0.6, QColor(210, 0, 0));
@@ -87,10 +93,12 @@ void Widget::paintEvent(QPaintEvent *)
     radius -= 3;
     QPainterPath path;
     path.addEllipse(-radius, -radius - 2, radius << 1, radius << 1);
-    QPainterPath bigEllipse;
 
+    QPainterPath bigEllipse;
     radius *= 2;
-    bigEllipse.addEllipse(-radius, -radius + 140, radius << 1, radius << 1);
+    ui->checkBox->setText(QString("Radius: %1").arg(radius));
+    bigEllipse.addEllipse(-radius, -radius + 140 * inzi, radius << 1, radius << 1);
+
     path -= bigEllipse;
 
     QLinearGradient lg3(0, -radius / 2, 0, 0);
