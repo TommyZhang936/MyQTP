@@ -19,11 +19,13 @@ OBJECTS_DIR = temp
 SOURCES += main.cpp\
         Widget.cpp \
     SearchButton.cpp \
-    Textlineedit.cpp
+    Textlineedit.cpp \
+    textcombo.cpp
 
 HEADERS  += Widget.h \
     SearchButton.h \
-    Textlineedit.h
+    Textlineedit.h \
+    textcombo.h
 
 FORMS    += Widget.ui
 

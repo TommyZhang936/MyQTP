@@ -1,18 +1,18 @@
-#ifndef TextlLineEdit_H
-#define TextlLineEdit_H
+#ifndef TEXTCOMBO_H
+#define TEXTCOMBO_H
 
-#include <QLineEdit>
+#include <QComboBox>
 
 class QLabel;
 class QString;
 
-class TextLineEdit : public QLineEdit
+class TextCombo : public QComboBox
 {
     Q_OBJECT
     
 public:
-    TextLineEdit(const QString &text);
-    ~TextLineEdit();
+    TextCombo(const QString &text);
+    ~TextCombo();
 
     void setLabelStyle(const QString &styleLabel);
     void setLabelWidth(const int widthLabel);
@@ -22,4 +22,4 @@ private:
     
 };
 
-#endif // TextlLineEdit_H
+#endif // TEXTCOMBO_H

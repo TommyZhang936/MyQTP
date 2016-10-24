@@ -1,10 +1,10 @@
-#include "TextLineEdit.h"
-#include <QLineEdit>
-#include <QHBoxLayout>
+#include "TextCombo.h"
+#include <QComboBox>
 #include <QLabel>
+#include <QDebug>
 
-TextLineEdit::TextLineEdit(const QString &text)
-    : QLineEdit()
+TextCombo::TextCombo(const QString &text)
+    : QComboBox()
 {
     //定制Label
     textLabel = new QLabel(this);
@@ -13,29 +13,32 @@ TextLineEdit::TextLineEdit(const QString &text)
     textLabel->setAlignment(Qt::AlignVCenter|Qt::AlignLeft);
     textLabel->setFocusPolicy(Qt::NoFocus);                 // 得到焦点时，不显示虚线框
     int labelWidth = textLabel->geometry().width();       //得到Label的宽度
-    //QSize size = QSize(labelWidth, this->sizeHint().height());
     textLabel->setFixedHeight(this->sizeHint().height());                                  // 设置按钮的大小为图片的大小
-    //设置Label宽度和LineEdit可用范围
+    //设置Label宽度和ComboBox文字显示范围
     setLabelWidth(labelWidth);
 
-    // 设置Label默认样式
-    QString str = QString("background: black; color: white; border: 1 solid gray;");
-    setLabelStyle(str);
+    // 设置Label默认样式    
+    QString str = QString("background: black; color: white; border: 1 solid gray; ");
+    setLabelStyle(str);            
 }
 
-TextLineEdit::~TextLineEdit()
+TextCombo::~TextCombo()
 {
     delete textLabel;
 }
 
-void TextLineEdit::setLabelStyle(const QString &styleLabel)
+void TextCombo::setLabelStyle(const QString &styleLabel)
 {
     textLabel->setStyleSheet(styleLabel);
 }
 
-void TextLineEdit::setLabelWidth(const int widthLabel)
+void TextCombo::setLabelWidth(const int widthLabel)
 {
     textLabel->setFixedWidth(widthLabel);
     //设置输入框中文件输入区，不让输入的文字在被隐藏在Label文本下
-    setTextMargins(widthLabel, 1, 0, 1);
+    QString str;// = QString(".TextCombo { padding: 0px 0px 0px %1px; }").arg(widthLabel);
+    str = QString(" QComboBox QAbstractItemView::item { min-height:40px; min-width: 100px; } ");
+    qDebug() << str;
+    //setContentsMargins(100, 0, 0, 0);
+    this->setStyleSheet(str);
 }
