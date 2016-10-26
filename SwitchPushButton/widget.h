@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include "switchbutton.h"
+#include "imagebutton.h"
+#include "masklabel.h"
 
 namespace Ui {
 class Widget;
@@ -18,15 +20,18 @@ public:
     
 private slots:
     void ShowStatus();
+    void ShowAM();
     
 private:
     Ui::Widget *ui;
     
     SwitchButton *newSB1;
     SwitchButton *newSB2;
+    ImageButton *imageButton;
+    ImageButton *imageBok;
+    MaskLabel *maskLab;
     
-    QString strText1;
-    QString strText2;
+    QString strText;
 };
 
 #endif // WIDGET_H

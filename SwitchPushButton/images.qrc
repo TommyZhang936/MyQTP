@@ -2,5 +2,12 @@
     <qresource prefix="/">
         <file>btn_check_off.png</file>
         <file>btn_check_on.png</file>
+        <file>1.png</file>
+        <file>1_hover.png</file>
+        <file>1_pressed.png</file>
+        <file>btn_ok.png</file>
+        <file>btn_ok_hover.png</file>
+        <file>btn_ok_pressed.png</file>
+        <file>LABEL.png</file>
     </qresource>
 </RCC>

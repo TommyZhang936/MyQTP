@@ -1,7 +1,7 @@
 #ifndef SWITCHPUSHBUTTON_H
 #define SWITCHPUSHBUTTON_H
 
-#include <QWidget>
+//#include <QWidget>
 #include <QPushButton>
 
 class SwitchButton : public QPushButton

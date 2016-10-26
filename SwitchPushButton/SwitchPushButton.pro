@@ -14,10 +14,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         widget.cpp \
-    switchbutton.cpp
+    switchbutton.cpp \
+    imagebutton.cpp \
+    masklabel.cpp
 
 HEADERS  += widget.h \
-    switchbutton.h
+    switchbutton.h \
+    imagebutton.h \
+    masklabel.h
 
 FORMS    += widget.ui
 
