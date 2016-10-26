@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>btn_check_off.png</file>
+        <file>btn_check_on.png</file>
+    </qresource>
+</RCC>
