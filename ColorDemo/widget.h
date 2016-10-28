@@ -25,6 +25,21 @@ private:
     void showColor();
 
     QList<QString> listColor;
+    QHash<QString, QString> hashRGB;
+    
+    int numColor;
+    int numRed;
+    int numGreen;
+    int numBlue;
+    int numWidth;
+    int numHeight;
+    int pxWidth;
+    int pxHeight;
+    int sppxWidth;
+    int sppxHeight;
+    int startWidth;
+    int startHeight;
+    
 };
 
 #endif // WIDGET_H

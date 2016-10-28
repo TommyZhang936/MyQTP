@@ -11,6 +11,7 @@ public:
     ~MoneyToHZ();
 
     QString getHZ(const double);
+    QString getHZ(const QString &);
     
 private:
     QHash<int, QString> strHZ09;

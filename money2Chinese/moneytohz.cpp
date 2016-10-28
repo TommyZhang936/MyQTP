@@ -47,6 +47,7 @@ MoneyToHZ::~MoneyToHZ()
 {    
 }
 
+//input double
 QString MoneyToHZ::getHZ(const double input)
 {
     QString strOUT ="";
@@ -67,24 +68,35 @@ QString MoneyToHZ::getHZ(const double input)
     //为计算 Next 增加一个字符进去
     listOut[0].append('A') ;
     
-    strOUT.clear();
+    strOUT = "￥"; 
     int intWei;
-    char charWei;
-    char charNext;
+    char charPre;
+    char charWei; 
+    char charNext = (listOut[0].at(0)).toLatin1();
     for(int i = 0; i < lenInteger ; i ++ )
     {
-        charWei = (listOut[0].at(i)).toLatin1();     
-        charNext = (listOut[0].at(i + 1)).toLatin1();     
+        charPre =  charWei;  
+        charWei = charNext;     
+        charNext = (listOut[0].at(i + 1)).toLatin1();  
+        
         if(charWei != '+' )
         {
             //取汉字数字 -零-            
             intWei = (int)(charWei - 48);
-            strOUT += strHZ09.value(intWei);
-
-            //取对应位
-            if(intWei > 0)
+            switch(intWei)
             {
+            case 0:
+                if(lenInteger - i  == 5 and (charPre != '+'))
+                    strOUT +="万";
+                if(lenInteger - i  == 9 and (charPre != '+'))
+                    strOUT +="亿";
+                strOUT += "零";
+                break;
+            //取对应位
+            default:
+                strOUT += strHZ09.value(intWei);
                 strOUT += (charNext == '+') ? strIntegerZ.value(lenInteger - i - 1) : strInteger.value(lenInteger - i - 1);
+            break;
             }
         }
     }
@@ -102,12 +114,23 @@ QString MoneyToHZ::getHZ(const double input)
     {
         charWei = (listOut[1].at(i)).toLatin1();
         intWei = (int)(charWei - 48);
-        strOUT += (intWei == 0) ? "" :  strHZ09.value(intWei) + strDecimal[i];
+        strOUT += strHZ09.value(intWei) + strDecimal[i];
     }
-    strOUT.replace("元角", "元");
-    strOUT.replace("元分", "元");
+    strOUT.replace("零角", "零");
+    strOUT.replace("零零分", "正");
+    strOUT.replace("零分", "正");
                 
     qDebug() << QString::number(input, 'f', 2) << " = " << strOUT;
     
     return strOUT;
 }
+//==input QString--------------------------------------------------------------------------
+QString MoneyToHZ::getHZ(const QString &input)
+{
+    QString strOUT ="";
+    //调用Double函数
+    strOUT =  getHZ(input.toDouble());
+ 
+    return strOUT;
+}
+

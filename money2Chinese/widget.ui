@@ -10,6 +10,14 @@
     <height>300</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>方正姚体</family>
+    <pointsize>32</pointsize>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Widget</string>
   </property>
