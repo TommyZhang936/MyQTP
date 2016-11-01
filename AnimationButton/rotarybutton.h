@@ -31,14 +31,16 @@ protected:
     void paintEvent(QPaintEvent *);
     
 private:    
+    int angle;                              //rotation angle
+    
     int pixWidth;                       //图片显示宽度
     int pixHeight;                      //图片显示高度
     
     QString text;                       //显示文字
     QString image;                      //图像路径
     
-    int angle;                              //rotation angle
-    
+    QRect rectPix;                        //绘图框
+        
     QPropertyAnimation *enterAnimation; //进入动画
     QPropertyAnimation *leaveAnimation; //离开动画
     

@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/sailing512_01.png</file>
+        <file>images/sailing512_02.ico</file>
+        <file>images/sailing512_02.png</file>
+        <file>images/sailing512_03.png</file>
+        <file>images/sailing512_04.png</file>
+        <file>images/sailing512_05.png</file>
+        <file>images/sailing512_06.png</file>
+        <file>images/CuteBall-Favorites000.png</file>
+        <file>images/internet.png</file>
+    </qresource>
+</RCC>
