@@ -66,6 +66,8 @@ void AnimationButton::paintEvent(QPaintEvent *)
     {
 		int pixX = rect().center().x() - targetWidth / 2;
 		int pixY = rect().center().y() - targetHeight / 2 - 10;
+        //qDebug() << pixX << pixY <<pixWidth << pixHeight;
+
 		QPoint point(pixX, pixY);
 		painter.drawPixmap(point, pix);
 		painter.drawText(QRectF(0, height() - 20, width(), 20), Qt::AlignCenter, text);

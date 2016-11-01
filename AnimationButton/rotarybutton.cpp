@@ -1,35 +1,24 @@
 #include "rotarybutton.h"
-#include <QGraphicsScale>
-#include <QGraphicsView>
-#include <QPushButton>
-#include <QTimer>
+#include <QPainter>
 #include <QMatrix>
-
-#include "synchapi.h"
+#include <QDebug>
 
 RotaryButton::RotaryButton(QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),
+      angle(0)
 {
-    enter = false;
-	leave = true;
     pixWidth = 0;
 	pixHeight = 0;
-    
-    m_angle = 0;  
-    m_delta = 0;  
-    m_current = 0;  
-    
-    enterAnimation = new QPropertyAnimation(this, "");
-	enterAnimation->setStartValue(1);
-	enterAnimation->setEndValue(90);
+      
+    enterAnimation = new QPropertyAnimation(this, "angle");
+    enterAnimation->setStartValue(0);
+    enterAnimation->setEndValue(90);
 	enterAnimation->setDuration(200);
-	connect(enterAnimation, SIGNAL(valueChanged(QVariant)), this, SLOT(enterImageChanged(QVariant)));
     
-    leaveAnimation = new QPropertyAnimation(this, "");
-	leaveAnimation->setStartValue(1);
-	leaveAnimation->setEndValue(90);
+    leaveAnimation = new QPropertyAnimation(this, "angle");
+    leaveAnimation->setStartValue(90);
+    leaveAnimation->setEndValue(0);
 	leaveAnimation->setDuration(200);
-	connect(leaveAnimation, SIGNAL(valueChanged(QVariant)), this, SLOT(leaveImageChanged(QVariant)));
     
 }
 
@@ -58,17 +47,11 @@ void RotaryButton::setText(QString text)
 
 void RotaryButton::enterEvent(QEvent *)
 {
-	enter = true;
-	leave = false;
-    
     enterAnimation->start();
 }
 
 void RotaryButton::leaveEvent(QEvent *)
 {
-	enter = false;
-	leave = true;
-    
     leaveAnimation->start();
 }
 
@@ -79,47 +62,39 @@ void RotaryButton::paintEvent(QPaintEvent *)
 		return;
 	}
 
-    QImage imgRatate;
-    imgRatate.load(image);
-         
     QPainter painter(this);
     painter.save();
 
-	painter.setRenderHint(QPainter::Antialiasing);
+    QImage img(image);
+    img = img.scaled(pixWidth, pixHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-	//QPixmap pix(image);
+	painter.setRenderHint(QPainter::Antialiasing);
     
+    QPixmap pix(image);
     int pixX = rect().center().x() - pixWidth / 2;
     int pixY = rect().center().y() - pixHeight / 2 - 10;
     QPoint point(pixX, pixY);
-    
-    QPixmap pix;    
-	if (enter || leave) 
-    {      
-        QMatrix matrix;
-        matrix.rotate(15);
-        QImage img =  imgRatate.transformed(matrix, Qt::SmoothTransformation);
-        pix = QPixmap::fromImage(img.scaled(pixWidth, pixHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));   
-		//pix = QPixmap::fromImage(img);
 
-	}       
-    //pix.scaled(pixWidth, pixHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-    painter.drawPixmap(point, pix); 
-    
+    QMatrix matrix;
+    matrix.rotate(angle);
+    img =  img.transformed(matrix, Qt::SmoothTransformation);
+    pix = QPixmap::fromImage(img);
+    pix = pix.scaled(pixWidth, pixHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+//    QTransform tf;
+//    tf.translate(pix.size().width() / 2, pix.size().height() / 2);
+//    tf.rotate(angle);
+//    painter.setTransform(tf);
+
+    //qDebug() << angle << point << pix.width() << pix.height() << pixWidth << pixHeight;
+//    painter.translate(pixX, pixY); //让图片的中心作为旋转的中心
+//    painter.rotate(angle); //顺时针旋转90度
+//    painter.translate(-pixX, -pixY); //使原点复原
+
+    painter.drawPixmap(point, pix);
+
     painter.restore();
     painter.drawText(QRectF(0, height() - 20, width(), 20), Qt::AlignCenter, text);
 }
 
-void RotaryButton::enterImageChanged(QVariant index)
-{
-	int i = index.toInt();
-	m_angle = i ;
-	update();
-}
 
-void RotaryButton::leaveImageChanged(QVariant index)
-{
-	int i = index.toInt();
-	m_angle = 90 - i;
-	update();
-}
