@@ -2,12 +2,14 @@
 #include "ui_mainwindow.h"
 #include <QPropertyAnimation>
 #include <QDesktopWidget>
+#include "synchapi.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    isBIG = false;
 }
 
 MainWindow::~MainWindow()
@@ -17,6 +19,7 @@ MainWindow::~MainWindow()
 //下坠
 void MainWindow::on_pushButton_clicked()
 {
+    Sleep(1000);
     QPropertyAnimation *pAnimation = new QPropertyAnimation(this, "geometry");
 
     QDesktopWidget *pDesktopWidget = QApplication::desktop();
@@ -74,4 +77,38 @@ void MainWindow::on_pushButton_4_clicked()
     pAnimation->setEndValue(QRect((x - xMax / 2), (y - yMax / 2), xMax, yMax));
     pAnimation->setEasingCurve(QEasingCurve::OutElastic);
     pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    
+    QPropertyAnimation *pAnimation = new QPropertyAnimation(this, "geometry");
+    
+    static QRect x = this->geometry();
+    //QRect y = x.adjusted(0, 0 ,50, 50);
+    static QRect y = QRect(x.x() - 100, x.y() - 100, x.width() + 200, x.height() + 200);
+
+    if(isBIG)
+    {
+        pAnimation->setDuration(3000);
+        pAnimation->setStartValue(y);
+        pAnimation->setEndValue(x);
+        
+        pAnimation->setEasingCurve(QEasingCurve::OutElastic);
+        pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+        
+    }
+    else
+    {
+    pAnimation->setDuration(3000);
+    pAnimation->setStartValue(x);
+    pAnimation->setEndValue(y);
+    
+    pAnimation->setEasingCurve(QEasingCurve::OutElastic);
+    pAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+    
+    }
+    
+    isBIG = !isBIG;
+    
 }
