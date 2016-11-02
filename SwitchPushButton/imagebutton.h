@@ -19,7 +19,8 @@ protected:
     virtual void paintEvent(QPaintEvent *);
 
 private:
-    typedef enum {
+    typedef enum
+    {
         ST_INIT, 
         ST_NORMAL, 
         ST_HOVER, 

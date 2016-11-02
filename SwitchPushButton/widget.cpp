@@ -44,6 +44,9 @@ Widget::Widget(QWidget *parent) :
     connect(newSB1, SIGNAL(clicked(bool)), this, SLOT(ShowStatus()));
     connect(newSB2, SIGNAL(clicked(bool)), this, SLOT(ShowStatus()));
     connect(imageBok, SIGNAL(clicked(bool)), this, SLOT(ShowAM()));
+    connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(setRadius()));
+    connect(imageButton, SIGNAL(clicked(bool)), this, SLOT(ShowRM()));
+
 }
 
 Widget::~Widget()
@@ -75,4 +78,27 @@ void Widget::ShowAM()
 //        maskLab->SetRadius(nowR);
 //        //maskLab->update();
 //    }
+}
+
+void Widget::ShowRM()
+{
+    QPropertyAnimation *pAnimation = new QPropertyAnimation(ui->widget_HLB, "radius");
+    pAnimation->setDuration(5000);
+    pAnimation->setKeyValueAt(0, 55);
+    pAnimation->setKeyValueAt(0.2, 222);
+    pAnimation->setKeyValueAt(1, 55);
+    pAnimation->start();
+//    int nowR = maskLab->radius;
+//    if(nowR < 300)
+//    {
+//        nowR++;
+//        maskLab->SetRadius(nowR);
+//        //maskLab->update();
+//    }
+}
+
+void Widget::setRadius()
+{
+    int thisR = ui->spinBox->value();
+    ui->widget_HLB->setRadius(thisR);
 }
