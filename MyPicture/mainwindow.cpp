@@ -86,7 +86,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     int arcHeight = 30;
 
     // >> 1（右移1位）相当于width() / 2
-    painter.translate(width() >> 1, (height() >> 1) - 20);    
+    painter.translate(width() >> 1, height() >> 1);
     // 旋转
     painter.rotate(m_nRotationAngle);
     //painter.rotate(45);
@@ -103,12 +103,7 @@ void MainWindow::paintEvent(QPaintEvent *)
     QRect rect = QRect(stx, sty, pix.width(), pix.height());
     qDebug() << rect << width() << height();
     
-    painter.drawPixmap(rect, pix);
-    
-    painter.restore();
-    painter.setPen(Qt::red);
-    painter.drawLine(QPoint(width() >> 1, 0), QPoint(width() >> 1, height()));
-    painter.drawLine(QPoint(0, height() >> 1), QPoint(width(), height() >> 1));
+
     
     /**
      * 参数二：半径
@@ -117,15 +112,30 @@ void MainWindow::paintEvent(QPaintEvent *)
      * 参数五：圆环的高度
      * 参数六：填充色
     **/
-//    gradientArc(&painter, radius, 0,  45, arcHeight, qRgb(200, 200, 0));
-//    gradientArc(&painter, radius, 45, 45, arcHeight, qRgb(200, 0, 200));
-//    gradientArc(&painter, radius, 90, 45, arcHeight, qRgb(0, 200, 200));
-//    gradientArc(&painter, radius, 135, 45, arcHeight, qRgb(200, 0, 0));
-//    gradientArc(&painter, radius, 225, 45, arcHeight, qRgb(0, 200, 0));
-//    gradientArc(&painter, radius, 180, 45, arcHeight, qRgb(0, 0, 200));
-//    gradientArc(&painter, radius, 270, 45, arcHeight, qRgb(0, 0, 0));
-//    gradientArc(&painter, radius, 315, 45, arcHeight, qRgb(150, 150, 150));
+    gradientArc(&painter, radius, 0,  45, arcHeight, qRgb(200, 200, 0));
+    gradientArc(&painter, radius, 45, 45, arcHeight, qRgb(200, 0, 200));
+    gradientArc(&painter, radius, 90, 45, arcHeight, qRgb(0, 200, 200));
+    gradientArc(&painter, radius, 135, 45, arcHeight, qRgb(200, 0, 0));
+    gradientArc(&painter, radius, 225, 45, arcHeight, qRgb(0, 200, 0));
+    gradientArc(&painter, radius, 180, 45, arcHeight, qRgb(0, 0, 200));
+    gradientArc(&painter, radius, 270, 45, arcHeight, qRgb(0, 0, 0));
+    gradientArc(&painter, radius, 315, 45, arcHeight, qRgb(150, 150, 150));
     
+    //中心画图片
+    painter.drawPixmap(rect, pix);
+
+    //还原画坐标线
+    painter.restore();
+    painter.setPen(Qt::red);
+
+    painter.drawLine(QPoint(width() >> 1, 0), QPoint(width() >> 1, height()));
+    painter.drawLine(QPoint(0, height() >> 1), QPoint(width(), height() >> 1));
+
+    int fontSize = 20;
+    QFont font("Arial", fontSize, QFont::Bold, true);
+    painter.setFont(font);
+    painter.drawText(QRect(0, height() - (fontSize << 1), width(), fontSize << 1), Qt::AlignCenter, QStringLiteral("旋转角度：%1").arg(m_nRotationAngle));
+
 }
 
 void MainWindow::gradientArc(QPainter *painter, int radius, int startAngle, int angleLength, int arcHeight, QRgb color)
@@ -137,7 +147,7 @@ void MainWindow::gradientArc(QPainter *painter, int radius, int startAngle, int 
     painter->setBrush(gradient);
 
     // << 1（左移1位）相当于radius*2 即：150*2=300
-    // QRectF(-150, -150, 300, 300)
+    //QRectF(-150, -150, 300, 300)
     QRectF rect(-radius, -radius, radius << 1, radius << 1);
     QPainterPath path;
     path.arcTo(rect, startAngle, angleLength);
