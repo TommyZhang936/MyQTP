@@ -4,5 +4,7 @@
         <file>image/v-home-ico-home.png</file>
         <file>image/v-home-ico-img.png</file>
         <file>image/v-home-ico-record.png</file>
+        <file>image/paypal.png</file>
+        <file>image/rss.png</file>
     </qresource>
 </RCC>

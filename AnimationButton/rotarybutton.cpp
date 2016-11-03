@@ -11,9 +11,7 @@ RotaryButton::RotaryButton(QWidget *parent)
     //列表初始化按照定义先后顺序进行
     //长宽需设置为双数，单数会导致后面旋转偏移
 {   
-    qreal stx = - pixWidth >> 1;
-    qreal sty = - pixHeight >> 1;
-    rectPix = QRect(stx, sty, pixWidth, pixHeight);
+    setLength();
     
     enterAnimation = new QPropertyAnimation(this, "angle");
     enterAnimation->setStartValue(0);
@@ -46,6 +44,15 @@ void RotaryButton::setText(QString text)
 	update();
 }
 
+void RotaryButton::setLength(int width, int height)
+{
+    pixWidth = width;
+    pixHeight = height;
+    qreal stx = - pixWidth >> 1;
+    qreal sty = - pixHeight >> 1;
+    rectPix = QRect(stx, sty, pixWidth, pixHeight);
+}
+
 void RotaryButton::enterEvent(QEvent *)
 {
     enterAnimation->start();
@@ -66,7 +73,7 @@ void RotaryButton::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.save();    
 	painter.setRenderHint(QPainter::Antialiasing, true);
-    //终于搞完美了 经验：转换旋转一定要挡在最前面*****
+    //终于搞完美了 经验：转换旋转一定要放在最前面*****
     // >> 1（右移1位）相当于width() / 2
     painter.translate(width() >> 1, (height() >> 1) - 10);    
     // 旋转
