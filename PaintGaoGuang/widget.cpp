@@ -61,7 +61,7 @@ void Widget::paintEvent(QPaintEvent *)
     int radius = (width() > height()) ? height() / 2 : width() / 2;
     if(radius > 33)
         radius -= 33;
-    //int radius = 100;
+    radius = 100;
     ui->pushButton->setText(QString("%1").arg(radius));
 
     // 外边框

@@ -21,6 +21,8 @@ public:
 private slots:
     void ShowStatus();
     void ShowAM();
+    void ShowRM();
+    void setRadius();
     
 private:
     Ui::Widget *ui;
