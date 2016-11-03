@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/yoda.png</file>
+        <file>images/rabbit.png</file>
+        <file>images/cyclops.png</file>
+        <file>images/star_beast.png</file>
+        <file>images/island.png</file>
+        <file>images/DropDrag.jpg</file>
+        <file>images/agnes.png</file>
+        <file>images/redstar.png</file>
+        <file>images/p8.png</file>
+    </qresource>
+</RCC>
