@@ -17,7 +17,7 @@ public:
     void setText(QString text);
     //设置显示的图像
     void setImage(QString image);
-    //设置图标大小
+    //设置图标大小（默认大小86）
     void setLength(int width = 86, int height = 86);
 
     int getAngle() {return angle;}

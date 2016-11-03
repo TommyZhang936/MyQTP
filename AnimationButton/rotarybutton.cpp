@@ -5,12 +5,10 @@
 
 RotaryButton::RotaryButton(QWidget *parent)
     : QWidget(parent),
-      angle(0),
-      pixWidth(86),
-      pixHeight(86)             
+      angle(0)          
     //列表初始化按照定义先后顺序进行
-    //长宽需设置为双数，单数会导致后面旋转偏移
 {   
+    //初始化图标大小默认值
     setLength();
     
     enterAnimation = new QPropertyAnimation(this, "angle");
@@ -43,7 +41,7 @@ void RotaryButton::setText(QString text)
 	this->text = text;
 	update();
 }
-
+//长宽需设置为双数，单数会导致后面旋转偏移
 void RotaryButton::setLength(int width, int height)
 {
     pixWidth = width;
