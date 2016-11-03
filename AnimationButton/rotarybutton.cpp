@@ -6,8 +6,10 @@
 RotaryButton::RotaryButton(QWidget *parent)
     : QWidget(parent),
       angle(0),
-      pixWidth(85),
-      pixHeight(85)             //列表初始化按照定义先后顺序进行
+      pixWidth(86),
+      pixHeight(86)             
+    //列表初始化按照定义先后顺序进行
+    //长宽需设置为双数，单数会导致后面旋转偏移
 {   
     qreal stx = - pixWidth >> 1;
     qreal sty = - pixHeight >> 1;
@@ -54,7 +56,6 @@ void RotaryButton::leaveEvent(QEvent *)
     leaveAnimation->start();
 }
 
-/*
 void RotaryButton::paintEvent(QPaintEvent *)
 {
 	if (image.isEmpty()) 
@@ -63,66 +64,20 @@ void RotaryButton::paintEvent(QPaintEvent *)
 	}
 
     QPainter painter(this);
-    painter.save();
-	painter.setRenderHint(QPainter::Antialiasing);
-
-    //定图片圆心
-    qreal pixX = rect().center().x() - pixWidth / 2;
-    qreal pixY = rect().center().y() - pixHeight / 2 - 10;
-    QPoint point(pixX, pixY);
-
-    //图片旋转角度-angle
-    //旋转过程中图片会变小
-//    double pi = 3.14;    
-//    double a    = pi / 180 * angle;
-//    double sina = sin(a);
-//    double cosa = cos(a);
-    
-//    QMatrix translationMatrix(1.0, 0, 0, -1.0, -0.5, 0.5);
-//    QMatrix rotationMatrix(cosa, sina, -sina, cosa, 0, 0);
-//    QMatrix scalingMatrix(1.0, 0, 0, -1.0, 0.5, 0.5);
-    
-//    QMatrix matrix;
-//    matrix =  scalingMatrix * rotationMatrix * translationMatrix;
-  
-    QMatrix matrix;
-    matrix.reset();
-    matrix.rotate(angle);    
-    qDebug() << matrix.m11() << matrix.m12();
-    QImage img(image);
-    img =  img.transformed(matrix, Qt::SmoothTransformation);
-    QPixmap pix = QPixmap::fromImage(img);
-    pix = pix.scaled(pixWidth, pixHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-    painter.drawPixmap(point, pix);
-
-    painter.restore();
-    painter.drawText(QRectF(0, height() - 20, width(), 20), Qt::AlignCenter, text);
-}
-*/
-
-void RotaryButton::paintEvent(QPaintEvent *)
-{
-	if (image.isEmpty()) 
-    {
-		return;
-	}
-
-    QPainter painter(this);
-    painter.save();
-    
+    painter.save();    
 	painter.setRenderHint(QPainter::Antialiasing, true);
+    //终于搞完美了 经验：转换旋转一定要挡在最前面*****
+    // >> 1（右移1位）相当于width() / 2
+    painter.translate(width() >> 1, (height() >> 1) - 10);    
+    // 旋转
+    painter.rotate(angle);   
     
     QPixmap pix(image);
-    pix = pix.scaled(pixWidth, pixHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    pix = pix.scaled(pixWidth, pixHeight, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);    
     
-    // >> 1（右移1位）相当于width() / 2
-    painter.translate(width() >> 1, height() >> 1);    
-    // 旋转
-    painter.rotate(angle);    
-    
+    //绘制图标
     painter.drawPixmap(rectPix, pix);
-
+    //恢复painter再绘制文字
     painter.restore();
     painter.drawText(QRectF(0, height() - 20, width(), 20), Qt::AlignCenter, text);
     

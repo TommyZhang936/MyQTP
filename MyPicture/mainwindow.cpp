@@ -9,12 +9,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    //setWindowFlags(Qt::FramelessWindowHint);
+    //setAttribute(Qt::WA_TranslucentBackground); // ****这里很重要**** 
     
     m_nRotationAngle = 0;
     
     // 利用定时器，定时变换角度，进行旋转。
     QTimer *pTimer = new QTimer(this);
-    pTimer->setInterval(100);
+    pTimer->setInterval(50);
     connect(pTimer, SIGNAL(timeout()), this, SLOT(updatePaint()));
     pTimer->start();
     
@@ -69,27 +71,44 @@ void MainWindow::paintEvent(QPaintEvent *)
 */
     
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.save();
+    //------------------------------------
+    //QPainter::Antialiasing           告诉绘图引擎应该在可能的情况下进行边的反锯齿绘制
+    //QPainter::TextAntialiasing       尽可能的情况下文字的反锯齿绘制
+    //QPainter::SmoothPixmapTransform  使用平滑的pixmap变换算法(双线性插值算法),而不是近邻插值算法
+    //------------------------------------
+    //painter.setRenderHint(QPainter::Antialiasing, true);
+    //我们通过这条语句，将Antialiasing属性（也就是反走样）设置为 true。经过这句设置，我们就打开了QPainter的反走样功能。
+    //painter.setRenderHint(QPainter::Antialiasing, true);
+    painter.setRenderHints(QPainter::SmoothPixmapTransform, true);
 
     int radius = 150;
     int arcHeight = 30;
 
     // >> 1（右移1位）相当于width() / 2
-    painter.translate(width() >> 1, height() >> 1);    
+    painter.translate(width() >> 1, (height() >> 1) - 20);    
     // 旋转
     painter.rotate(m_nRotationAngle);
+    //painter.rotate(45);
 
     // 画图片    
     QPixmap pix;
     //pix.load(":/images/CuteBall-Favorites000.png");
     pix.load(":/images/internet.png");
+    //pix.load(":/images/4.png");
+    pix = pix.scaled(pix.width(), pix.height(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
     
     int stx = (- pix.width()) >> 1;
     int sty = (- pix.height()) >> 1;
     QRect rect = QRect(stx, sty, pix.width(), pix.height());
-    qDebug() << rect;
+    qDebug() << rect << width() << height();
     
     painter.drawPixmap(rect, pix);
+    
+    painter.restore();
+    painter.setPen(Qt::red);
+    painter.drawLine(QPoint(width() >> 1, 0), QPoint(width() >> 1, height()));
+    painter.drawLine(QPoint(0, height() >> 1), QPoint(width(), height() >> 1));
     
     /**
      * 参数二：半径

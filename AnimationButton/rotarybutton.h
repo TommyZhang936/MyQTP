@@ -21,6 +21,10 @@ public:
     int getAngle() {return angle;}
     void setAngle(int ang1)
         {
+            if(ang1 == angle)
+            {
+                return;
+            }
             angle = ang1;
             update();
         }

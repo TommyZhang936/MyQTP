@@ -18,10 +18,10 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="RotaryButton" name="widget1" native="true"/>
+    <widget class="AnimationButton" name="widget1" native="true"/>
    </item>
    <item>
-    <widget class="AnimationButton" name="widget2" native="true"/>
+    <widget class="RotaryButton" name="widget2" native="true"/>
    </item>
    <item>
     <widget class="RotaryButton" name="widget3" native="true"/>
