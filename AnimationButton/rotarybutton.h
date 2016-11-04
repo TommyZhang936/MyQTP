@@ -47,8 +47,8 @@ private:
     
     QRect rectPix;                        //绘图框
         
-    QPropertyAnimation *enterAnimation; //进入动画
-    QPropertyAnimation *leaveAnimation; //离开动画
+    QPropertyAnimation *rbAnimation; //鼠标动画
+  
     
 };
 

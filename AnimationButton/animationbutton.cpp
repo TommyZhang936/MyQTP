@@ -37,6 +37,7 @@ void AnimationButton::enterEvent(QEvent *)
 	leave = false;
 	pixWidth = pixWidth - 25;
 	pixHeight = pixHeight - 25;
+    setCursor(Qt::PointingHandCursor);
 	enterAnimation->start();
 }
 
@@ -46,6 +47,7 @@ void AnimationButton::leaveEvent(QEvent *)
 	leave = true;
 	pixWidth = oldWidth;
 	pixHeight = oldHeight;
+    setCursor(Qt::ArrowCursor);
 	leaveAnimation->start();
 }
 

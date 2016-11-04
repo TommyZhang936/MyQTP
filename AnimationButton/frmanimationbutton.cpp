@@ -15,10 +15,11 @@ frmAnimationButton::frmAnimationButton(QWidget *parent) :
 
 	ui->widget2->setText("通讯录");
 	ui->widget2->setImage(":/image/rss.png");
-
+    ui->widget2->setLength(100, 100);
+    
 	ui->widget3->setText("图片");
 	ui->widget3->setImage(":/image/v-home-ico-img.png");
-    ui->widget3->setLength(100, 100);
+    
 
 	ui->widget4->setText("录音");
 	ui->widget4->setImage(":/image/v-home-ico-record.png");

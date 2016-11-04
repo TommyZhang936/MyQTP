@@ -11,22 +11,17 @@ RotaryButton::RotaryButton(QWidget *parent)
     //初始化图标大小默认值
     setLength();
     
-    enterAnimation = new QPropertyAnimation(this, "angle");
-    enterAnimation->setStartValue(0);
-    enterAnimation->setEndValue(90);
-	enterAnimation->setDuration(200);
-    
-    leaveAnimation = new QPropertyAnimation(this, "angle");
-    leaveAnimation->setStartValue(90);
-    leaveAnimation->setEndValue(0);
-	leaveAnimation->setDuration(200);
+    rbAnimation = new QPropertyAnimation(this, "angle");
+    rbAnimation->setStartValue(0);
+    rbAnimation->setEndValue(90);
+	rbAnimation->setDuration(200);
     
 }
 
 RotaryButton::~RotaryButton()
 {
-    delete enterAnimation;
-	delete leaveAnimation;
+    delete rbAnimation;
+
 }
 
 void RotaryButton::setImage(QString image)
@@ -53,12 +48,16 @@ void RotaryButton::setLength(int width, int height)
 
 void RotaryButton::enterEvent(QEvent *)
 {
-    enterAnimation->start();
+    setCursor(Qt::PointingHandCursor);
+    rbAnimation->setDirection(QAbstractAnimation::Forward);
+    rbAnimation->start();
 }
 
 void RotaryButton::leaveEvent(QEvent *)
 {
-    leaveAnimation->start();
+    setCursor(Qt::ArrowCursor);
+    rbAnimation->setDirection(QAbstractAnimation::Backward);
+    rbAnimation->start();
 }
 
 void RotaryButton::paintEvent(QPaintEvent *)
@@ -70,7 +69,7 @@ void RotaryButton::paintEvent(QPaintEvent *)
 
     QPainter painter(this);
     painter.save();    
-	painter.setRenderHint(QPainter::Antialiasing, true);
+	//painter.setRenderHint(QPainter::Antialiasing, true);
     //终于搞完美了 经验：转换旋转一定要放在最前面*****
     // >> 1（右移1位）相当于width() / 2
     painter.translate(width() >> 1, (height() >> 1) - 10);    
