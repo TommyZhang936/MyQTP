@@ -12,8 +12,11 @@ public:
     Widget(QWidget *parent = 0);
     ~Widget();
     
+    void huaYuandian(QPainter &painter);
     void huaDian(QPainter &);
     void huaXian(QPainter &);
+    void DrawCustomLine(QPainter & _painter, double _angle, double _len, const QString & _name, const QColor & _color);
+    void huaPath(QPainter &painter);
     
 protected:
     void paintEvent(QPaintEvent *event);  
@@ -25,6 +28,7 @@ public slots:
 private:
     QPoint point;
     QPoint pointPre;
+    QPainterPath *myPath;
 };
 
 #endif // WIDGET_H
