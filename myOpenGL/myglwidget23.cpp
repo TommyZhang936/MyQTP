@@ -99,6 +99,7 @@ void MyGLWidget::paintGL()
         gluCylinder(m_Quadratic, 1.0f, 1.0f, 3.0f, 64, 64);
         break;
     case 2:                                             //绘制球
+        glTranslatef(0.0f, 0.0f, -1.5f);
         gluSphere(m_Quadratic, 1.3f, 64, 64);
         break;
     case 3:                                             //绘制圆锥
