@@ -1,5 +1,5 @@
 #include <QApplication>  
-#include "myglwidget23.h"
+#include "myglwidget29.h"
   
 int main(int argc, char *argv[])  
 {  

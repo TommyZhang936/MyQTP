@@ -17,13 +17,15 @@ SOURCES += main.cpp\
     switchbutton.cpp \
     imagebutton.cpp \
     masklabel.cpp \
-    hilightbutton.cpp
+    hilightbutton.cpp \
+    switchbuttont.cpp
 
 HEADERS  += widget.h \
     switchbutton.h \
     imagebutton.h \
     masklabel.h \
-    hilightbutton.h
+    hilightbutton.h \
+    switchbuttont.h
 
 FORMS    += widget.ui
 

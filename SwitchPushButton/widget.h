@@ -5,6 +5,7 @@
 #include "switchbutton.h"
 #include "imagebutton.h"
 #include "masklabel.h"
+#include "switchbuttont.h"
 
 namespace Ui {
 class Widget;
@@ -32,6 +33,7 @@ private:
     ImageButton *imageButton;
     ImageButton *imageBok;
     MaskLabel *maskLab;
+    SwitchButtonT * newST1;
     
     QString strText;
 };

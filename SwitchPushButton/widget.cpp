@@ -26,11 +26,16 @@ Widget::Widget(QWidget *parent) :
     imageBok->setImages(imag2, imag2h , imag2p);
     imageBok->setFixedSize(QSize(64, 64));
     
+    newST1 = new SwitchButtonT;
+    
     QHBoxLayout *thisLayput = new QHBoxLayout;
     thisLayput->addWidget(newSB1);
     thisLayput->addWidget(newSB2);
     thisLayput->addWidget(imageButton);
     thisLayput->addWidget(imageBok);
+    thisLayput->addWidget(newST1);
+    //newST1->setButtonStyle(SwitchButtonT::ButtonStyle_CircleOut);
+    newST1->setFixedSize(88, 48);
     
     maskLab = new MaskLabel;
     maskLab->setPixmap(QPixmap(":/LABEL.png"));
