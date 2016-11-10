@@ -112,5 +112,6 @@ void Widget::on_pushButton_clicked()
     {
         morphing = false;
         timer->stop();
+        update();
     }
 }
