@@ -1,6 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>image/from.png</file>
+        <file>image/pear512.png</file>
+        <file>image/56645096_20.jpg</file>
         <file>image/to.png</file>
+        <file>image/Veinctor_006.png</file>
+        <file>image/cherry512.png</file>
     </qresource>
 </RCC>
