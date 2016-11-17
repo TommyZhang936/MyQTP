@@ -1,1 +1,21 @@
+图形图形类
+1、Qt Creator中的3D绘图及动画教程(参照NeHe)
 http://blog.csdn.net/cly116/article/details/47189361
+
+2、恢复模糊的图像 SmartDeblur
+https://github.com/Y-Vladimir/SmartDeblur
+
+3、LibRaw 是一个用来处理 RAW (CRW/CR2, NEF, RAF, DNG, and others) 格式图片的 C++ 库，支持各种操作系统。
+http://www.libraw.org/
+
+
+====================================================
+视频屏幕类
+1、LICEcap
+http://www.cockos.com/licecap/
+https://github.com/justinfrankel/licecap
+
+2、屏幕录制软件 SimpleScreenRecorder 编辑/纠错
+SimpleScreenRecorder 是一个开源的屏幕录制软件，支持 Linux 。使用基于 Qt 的图形用户界面开发。
+https://github.com/MaartenBaert/ssr
+
