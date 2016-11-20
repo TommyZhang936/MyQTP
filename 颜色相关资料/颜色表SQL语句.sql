@@ -34,6 +34,8 @@ GO
 
 --更新数据1-取3颜色HEX值
 update ChinaColor set HEXred = SUBSTRING(hex, 2,2)
+update ChinaColor set HEXgreen = SUBSTRING(hex, 4,2)
+update ChinaColor set HEXblue = SUBSTRING(hex, 6,2)
 
  --16进制字符串转10进制int（0-FFFFFFFFFFFFFFFF）：
  CREATE  function [hextoint](@s varchar(10)) 
@@ -45,7 +47,9 @@ begin
 END
 
 --更新数据2-取3颜色int值
-update ChinaColor set red = dbo.hextoint(hexred)
+update ChinaColor set red = dbo.hextoint(HEXred)
+update ChinaColor set green = dbo.hextoint(HEXgreen)
+update ChinaColor set blue = dbo.hextoint(HEXblue)
 
 --分析颜色
 --红色
@@ -58,14 +62,14 @@ order by red
 --绿色
 select name,HEX from ChinaColor 
 where green > 200 
-		and red < 128
-
+		and red + blue < 200
+	
 order by green 
 
 --蓝色
 select name,HEX from ChinaColor 
 where blue > 128 
-	and (red) < 100
+	and (red + green) < 100
 order by blue 
 
 --黄色
