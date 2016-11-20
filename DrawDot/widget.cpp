@@ -25,7 +25,7 @@ Widget::Widget(QWidget *parent) :
     QTimer *timer = new QTimer(this);                   //创建一个定时器
     //将定时器的计时信号与addDot()绑定
     connect(timer, SIGNAL(timeout()), this, SLOT(addDot()));
-    timer->start(100);                                   //以10ms为一个计时周期
+    timer->start(1);                                   //以10ms为一个计时周期
     
 }
 
@@ -37,7 +37,6 @@ void Widget::makeDebugMsg(const QString &msg)
 {
     if(m_messages.count() >= 3)
         m_messages.takeFirst();
-
     m_messages << msg;
     update();
 }
@@ -80,62 +79,8 @@ void Widget::paintEvent(QPaintEvent *)
     p.translate(width() >> 1, height() >> 1);
     drawDot(p);
     p.restore();
-    //-----------------
-    p.setPen(Qt::green);
-    wLED = 15.0f;
-    hLED = wLED * 4;
-    whLED = hLED;
-    QPointF pointO = QPointF(wLED +5, wLED +5);
-    //左边竖行
-    QPointF point0 = pointO + QPointF(wLED, wLED);
-    calcHPoints(point0);
-    p.drawPolygon(mPoints);
-    point0 = pointO + QPointF(wLED, wLED * 4 + wLED + hLED);
-    calcHPoints(point0);
-    p.drawPolygon(mPoints);
-    //右边竖行
-    point0 = pointO + QPointF(wLED * 5 + whLED, wLED);
-    calcHPoints(point0);
-    p.drawPolygon(mPoints);
-    point0 = pointO + QPointF(wLED * 5 + whLED, wLED * 5 + hLED);
-    calcHPoints(point0);
-    p.drawPolygon(mPoints);
-    //横画
-    point0 = pointO + QPointF(wLED + wLED, 0);
-    calcWPoints(point0);
-    p.drawPolygon(mPoints);
-    point0 = pointO + QPointF(wLED + wLED, wLED * 4 + hLED);
-    calcWPoints(point0);
-    p.drawPolygon(mPoints);
-    point0 = pointO + QPointF(wLED + wLED, wLED * 8 + hLED * 2);
-    calcWPoints(point0);
-    p.drawPolygon(mPoints);
-
-
-    //写提示信息
+     //写提示信息
     writeDebugMsg(p);
-}
-
-void Widget::calcHPoints(QPointF sp)
-{
-    mPoints.clear();
-    mPoints << sp
-            << QPointF(sp + QPointF(-wLED, wLED))
-            << QPointF(sp + QPointF(-wLED, wLED + hLED))
-            << QPointF(sp + QPointF(0, wLED + wLED + hLED))
-            << QPointF(sp + QPointF(wLED, wLED + hLED))
-            << QPointF(sp + QPointF(wLED, wLED));
-}
-
-void Widget::calcWPoints(QPointF sp)
-{
-    mPoints.clear();
-    mPoints << sp
-            << QPointF(sp + QPointF(wLED, wLED))
-            << QPointF(sp + QPointF(wLED + whLED, wLED))
-            << QPointF(sp + QPointF(wLED + whLED + wLED, 0))
-            << QPointF(sp + QPointF(wLED + whLED, -wLED))
-            << QPointF(sp + QPointF(wLED, -wLED));
 }
 
 void Widget::addDot()

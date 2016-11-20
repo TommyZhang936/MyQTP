@@ -40,8 +40,6 @@ private:
     void writeDebugMsg(QPainter &p);
     void drawDot(QPainter &p);
     void makeDebugMsg(const QString &msg);
-    void calcHPoints(QPointF sp);
-    void calcWPoints(QPointF sp);
     
 private:
     bool fullscreen;                                //是否全屏显示  
@@ -49,11 +47,6 @@ private:
     QStringList m_messages;
     
     OBJECT mOBJECT;
-
-    float wLED;
-    float hLED;
-    float whLED;
-    QPolygonF mPoints;
 
 };
 

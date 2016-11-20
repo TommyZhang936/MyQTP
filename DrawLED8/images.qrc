@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/Particle.bmp</file>
+        <file>image/star32.png</file>
+        <file>image/star48.png</file>
+    </qresource>
+</RCC>
